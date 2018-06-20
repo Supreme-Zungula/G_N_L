@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzungula <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/06 14:36:34 by yzungula          #+#    #+#             */
-/*   Updated: 2018/06/19 16:45:06 by yzungula         ###   ########.fr       */
+/*   Created: 2018/05/18 14:13:25 by yzungula          #+#    #+#             */
+/*   Updated: 2018/05/31 15:33:00 by yzungula         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	GET_NEXT_LINE_H
-#define GET_NEXT_LINE_H
-#include "./libft/libft.h"
+#include "libft.h"
 
-# define BUFF_SIZE 1
+size_t	ft_strlen(const char *str)
+{
+	size_t	len;
 
-int		get_next_line(const int fd, char **line);
-#endif
+	len = 0;
+	while (*str != '\0')
+	{
+		str++;
+		len++;
+	}
+	return (len);
+}

@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_memdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzungula <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/06 14:36:34 by yzungula          #+#    #+#             */
-/*   Updated: 2018/06/19 16:45:06 by yzungula         ###   ########.fr       */
+/*   Created: 2018/05/25 15:29:43 by yzungula          #+#    #+#             */
+/*   Updated: 2018/05/28 10:02:18 by yzungula         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	GET_NEXT_LINE_H
-#define GET_NEXT_LINE_H
-#include "./libft/libft.h"
+#include <stdlib.h>
+#include "libft.h"
 
-# define BUFF_SIZE 1
-
-int		get_next_line(const int fd, char **line);
-#endif
+void	ft_memdel(void **ptr)
+{
+	if (ptr)
+	{
+		if (*ptr)
+		{
+			free(*ptr);
+			*ptr = NULL;
+		}
+	}
+}

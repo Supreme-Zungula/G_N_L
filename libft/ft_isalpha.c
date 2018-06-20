@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzungula <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/06 14:36:34 by yzungula          #+#    #+#             */
-/*   Updated: 2018/06/19 16:45:06 by yzungula         ###   ########.fr       */
+/*   Created: 2018/05/19 14:46:03 by yzungula          #+#    #+#             */
+/*   Updated: 2018/05/19 14:49:46 by yzungula         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	GET_NEXT_LINE_H
-#define GET_NEXT_LINE_H
-#include "./libft/libft.h"
+#include "libft.h"
 
-# define BUFF_SIZE 1
-
-int		get_next_line(const int fd, char **line);
-#endif
+int		ft_isalpha(int c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+		return (1);
+	return (0);
+}

@@ -5,73 +5,68 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzungula <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/08 11:41:12 by yzungula          #+#    #+#             */
-/*   Updated: 2018/06/18 16:37:32 by yzungula         ###   ########.fr       */
+/*   Created: 2018/06/19 10:32:51 by yzungula          #+#    #+#             */
+/*   Updated: 2018/06/20 14:21:16 by yzungula         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdlib.h>
 #include <fcntl.h>
-#include <stdio.h>
 #include "get_next_line.h"
-/*
-static int	get_newln(char *str)
-{
-	int		found;
 
-	found = 0;
-	while (str[found] != '\n')
-		found++;
-	return (found);
+static int	get_newline(char *str)
+{
+	int		i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '\n')
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+/*
+static void	save_line(char *str, char **line)
+{
+	int		newln_pos;
+
+	newln_pos = get_newline(str);
+	str[newln_pos] = '\0';
+	*line = ft_strdup(str);
 }
 */
-int			get_next_line(int fd, char **line)
+int		get_next_line(const int fd, char **line)
 {
+	static char		*str;
 	char			buff[BUFF_SIZE + 1];
-	static char		*tmp_str;
-	size_t			bytes_read;
+	size_t			ret_bytes;
 	int				newln_pos;
 
-	newln_pos = 0;
-	if (fd < 0 || !line || (read(fd, buff, 0)) < 0)
+	if (fd < 0 || !line || BUFF_SIZE <= 0 || (read(fd, buff, 0)) < 0)
 		return (-1);
-	else
-		{
-			while ((bytes_read = read(fd, buff, BUFF_SIZE)))
-			{
-				buff[bytes_read] = '\0';
-				if (tmp_str == NULL)
-					tmp_str = ft_strdup(buff);
-				else
-					tmp_str = ft_strjoin(tmp_str, buff);
-				if (ft_strchr(buff, '\n') != NULL)
-					break;
-			}
-		}
-	while (tmp_str[newln_pos] != '\n')
-		newln_pos++;
-	//newln_pos = get_newln(tmp_str);
-	*line = ft_strsub(tmp_str, 0, newln_pos);
-	tmp_str = ft_strdup(tmp_str + newln_pos);
-	if (bytes_read == 0 && ft_strlen(*line) == 0)
+	while ((ret_bytes = read(fd, buff, BUFF_SIZE)) > 0)
 	{
-		puts("\nEND OF FILE");
-		printf("bytesread = %zu\n", bytes_read);
-		printf("*line = %s\n", *line);
+		buff[BUFF_SIZE] = '\0';
+		if (str == NULL)
+			str = ft_strdup(buff);
+		else
+			str = ft_strjoin(str, buff);
+		if (get_newline(str) >= 0)
+			break;
+	}
+	newln_pos = get_newline(str);
+	*line = ft_strsub(str, 0, newln_pos);
+	if (ft_strlen(str) && ret_bytes > 0)
+	{
+		str = ft_strdup(str + newln_pos + 1);
+		return (1);
+	}
+	if (ret_bytes == 0 && !(ft_strlen(str)))
+	{
+		*line = str;
 		return (0);
 	}
-	else
-		return (1);
+	return (-1);
 }
-/*
-int main(void)
-{
-	int fd;
-	char *line;
-
-	fd = open("test.txt", O_RDONLY);
-	while (get_next_line(fd, &line))
-		printf("%s",line);
-	close(fd);
-}*/

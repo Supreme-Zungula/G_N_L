@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strnequ.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzungula <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/06 14:36:34 by yzungula          #+#    #+#             */
-/*   Updated: 2018/06/19 16:45:06 by yzungula         ###   ########.fr       */
+/*   Created: 2018/05/26 12:13:40 by yzungula          #+#    #+#             */
+/*   Updated: 2018/05/28 09:07:16 by yzungula         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	GET_NEXT_LINE_H
-#define GET_NEXT_LINE_H
-#include "./libft/libft.h"
+#include "libft.h"
 
-# define BUFF_SIZE 1
-
-int		get_next_line(const int fd, char **line);
-#endif
+int		ft_strnequ(const char *str1, const char *str2, size_t n)
+{
+	if (!str1 || !str2)
+		return (0);
+	if (str1 && str2)
+	{
+		if (ft_strncmp(str1, str2, n) == 0)
+			return (1);
+	}
+	return (0);
+}

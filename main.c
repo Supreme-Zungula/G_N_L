@@ -6,6 +6,7 @@ int main(int argc, char **argv)
 {
 	int fd;
 	char *line;
+	int i = 1;
 
 	if (argc < 2)
 	{
@@ -14,9 +15,5 @@ int main(int argc, char **argv)
 	}
 	fd = open(argv[1], O_RDONLY);
 	while(get_next_line(fd, &line))
-	{
-		puts("AFTER CALLING GNL:");
-		printf("%s", line);
-	}
-	close(fd);
+		printf("%d-%s\n",i++, line);
 }

@@ -1,20 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strsub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzungula <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/06 14:36:34 by yzungula          #+#    #+#             */
-/*   Updated: 2018/06/19 16:45:06 by yzungula         ###   ########.fr       */
+/*   Created: 2018/05/26 12:23:48 by yzungula          #+#    #+#             */
+/*   Updated: 2018/06/01 12:59:35 by yzungula         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	GET_NEXT_LINE_H
-#define GET_NEXT_LINE_H
-#include "./libft/libft.h"
+#include <stdlib.h>
+#include "libft.h"
 
-# define BUFF_SIZE 1
+char	*ft_strsub(const char *str, unsigned int start, size_t len)
+{
+	size_t	str_len;
+	size_t	i;
+	char	*sub_str;
 
-int		get_next_line(const int fd, char **line);
-#endif
+	str_len = 0;
+	i = 0;
+	if (str == NULL)
+		return (NULL);
+	sub_str = ft_strnew(len);
+	if (sub_str)
+	{
+		while (i < len && str[start] != '\0')
+		{
+			sub_str[i] = str[start];
+			start++;
+			i++;
+		}
+	}
+	return (sub_str);
+}

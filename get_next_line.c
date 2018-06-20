@@ -6,7 +6,7 @@
 /*   By: yzungula <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/19 10:32:51 by yzungula          #+#    #+#             */
-/*   Updated: 2018/06/20 14:21:16 by yzungula         ###   ########.fr       */
+/*   Updated: 2018/06/20 15:31:07 by yzungula         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int		get_next_line(const int fd, char **line)
 			str = ft_strdup(buff);
 		else
 			str = ft_strjoin(str, buff);
-		if (get_newline(str) >= 0)
+		if (get_newline(buff) >= 0)
 			break;
 	}
 	newln_pos = get_newline(str);
@@ -63,9 +63,9 @@ int		get_next_line(const int fd, char **line)
 		str = ft_strdup(str + newln_pos + 1);
 		return (1);
 	}
-	if (ret_bytes == 0 && !(ft_strlen(str)))
+	if (ret_bytes == 0 && !ft_strlen(str))
 	{
-		*line = str;
+		*line = ft_strdup(str);
 		return (0);
 	}
 	return (-1);

@@ -13,7 +13,9 @@ int main(int argc, char **argv)
 		puts("Expected two arguments for main");
 		return (0);
 	}
+	int ret;
 	fd = open(argv[1], O_RDONLY);
-	while(get_next_line(fd, &line))
-		printf("%d-%s\n",i++, line);
+	while((ret = get_next_line(fd, &line)))
+		printf("%d-%s\nRET = %d\n",i++, line, ret);
+	printf("final ret = %d\n", ret);
 }

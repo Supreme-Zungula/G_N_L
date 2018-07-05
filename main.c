@@ -16,6 +16,6 @@ int main(int argc, char **argv)
 	int ret;
 	fd = open(argv[1], O_RDONLY);
 	while((ret = get_next_line(fd, &line)))
-		printf("%d-%s\nRET = %d\n",i++, line, ret);
+		printf("%d-%s\n",i++, line);
 	printf("final ret = %d\n", ret);
 }

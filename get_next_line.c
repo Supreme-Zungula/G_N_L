@@ -6,19 +6,17 @@
 /*   By: yzungula <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/19 10:32:51 by yzungula          #+#    #+#             */
-/*   Updated: 2018/06/23 14:59:25 by yzungula         ###   ########.fr       */
+/*   Updated: 2018/06/29 16:05:45 by yzungula         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <fcntl.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include "get_next_line.h"
 
-static int get_newline(char *str)
+static int	get_newline(char *str)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	while (str[i] != '\n' && str[i] != '\0')
@@ -26,50 +24,50 @@ static int get_newline(char *str)
 	return (i);
 }
 
-static t_list	*find_file(t_list **file_list, int fd)
+int			store_line(char **line, char **str, int ret_bytes)
 {
-	t_list	*curr;
+	char	*temp;
+	int		newln_pos;
 
-	curr = (*file_list);
-	while (curr)
+	if (ret_bytes == 0 && !ft_strlen(*str))
+		return (0);
+	newln_pos = get_newline(*str);
+	*line = ft_strsub(*str, 0, newln_pos);
+	if (newln_pos == (int)ft_strlen(*str))
+		ft_strclr(*str);
+	else
 	{
-		if (curr->content_size == (size_t)fd)
-			return (curr);
-		curr = curr->next;
+		temp = *str;
+		*str = ft_strsub(*str, newln_pos + 1, ft_strlen(*str));
+		free(temp);
 	}
-	curr = ft_lstnew("\0", 0);
-	curr->content_size = fd;
-	ft_lstadd(file_list, curr);
-	return (curr);
+	return (1);
 }
 
-int		get_next_line(const int fd, char **line)
+int			get_next_line(const int fd, char **line)
 {
-	static t_list	*file_list;
-	char			buff[BUFF_SIZE + 1];
-	//char			*temp;
-	int				read_bytes;
-	int				newln_pos;
-	t_list			*file;
+	static char		*str[1];
+	char			*buff;
+	char			*temp;
+	size_t			ret_bytes;
 
-	if (fd < 0 || !line || BUFF_SIZE <= 0 || (read(fd, buff, 0) < 0))
+	if (BUFF_SIZE < 0)
 		return (-1);
-	file = find_file(&file_list, fd);
-	ft_bzero(buff, BUFF_SIZE + 1);
-	while ((read_bytes = read(file->content_size, buff, BUFF_SIZE) > 0))
+	temp = NULL;
+	buff = ft_strnew(BUFF_SIZE);
+	if (fd < 0 || !line || BUFF_SIZE <= 0 || (read(fd, buff, 0)) < 0)
+		return (-1);
+	while ((ret_bytes = read(fd, buff, BUFF_SIZE)) > 0)
 	{
-		file->content = ft_strjoin(file->content, buff);
+		if (str[fd] == NULL)
+			str[fd] = ft_strnew(0);
+		temp = ft_strjoin(str[fd], buff);
+		free(str[fd]);
+		str[fd] = temp;
 		if (ft_strchr(buff, '\n'))
-			break;
-		ft_bzero(buff, BUFF_SIZE + 1);
+			break ;
+		ft_strclr(buff);
 	}
-	if (!ft_strlen(file->content) && read_bytes == 0)
-		return (0);
-	newln_pos = get_newline(file->content);
-	*line = ft_strsub(file->content, 0, newln_pos);
-	if ((file->content + newln_pos))
-		file->content = file->content + newln_pos + 1;
-	else
-		file->content = NULL;
-	return (1);
-} 
+	ft_strdel(&buff);
+	return (store_line(line, &str[fd], ret_bytes));
+}
